@@ -18,19 +18,17 @@ namespace VFSRoseOnline
     {
         private readonly VFSReadFacade _vfsReadFacade;
         public Form1()
-        {
+        { 
             InitializeComponent();
-            _vfsReadFacade = new VFSReadFacade();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            using (_vfsReadFacade.OpenVFS())
+            using (_vfsReadFacade = new VFSReadFacade())
             {
                 _vfsReadFacade.GetAllVFSFileNames();
                 _vfsReadFacade.GetAllNodes();
             }
+        }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
             treeViewVFS.Nodes.AddRange(_vfsReadFacade.VFSFileNames);
             var b = _vfsReadFacade.VFSModel;
         }

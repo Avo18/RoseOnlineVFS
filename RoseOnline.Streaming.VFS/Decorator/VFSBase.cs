@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace RoseOnline.Streaming.VFS.Decorator
 {
-    public abstract class VFSBase : IDisposable
+    abstract class VFSBase : IDisposable
     {
         protected IntPtr[] ReserveMemory(int numberOfFiles)
         {

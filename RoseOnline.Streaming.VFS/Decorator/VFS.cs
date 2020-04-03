@@ -6,8 +6,6 @@ namespace RoseOnline.Streaming.VFS.Decorator
     {
         string IndexFile { get; set; }
         string VFSMode { get; set; }
-        void OpenVFS();
-        void CloseVFS();
     }
 
     
@@ -21,14 +19,20 @@ namespace RoseOnline.Streaming.VFS.Decorator
         {
             IndexFile = InjectionChecks.NotNullOrEmpty(indexFile);
             VFSMode = vfsMode;
+            Init();
         }
 
-        public void OpenVFS()
+        private void Init()
+        {
+            OpenVFS();
+        }
+
+        private void OpenVFS()
         {
             VFSData = NativeMethods.OpenVFS(this.IndexFile, VFSMode);
         }
 
-        public void CloseVFS()
+        private void CloseVFS()
         {
             NativeMethods.CloseVFS(VFSData);
         }

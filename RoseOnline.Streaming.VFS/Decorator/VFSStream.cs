@@ -40,7 +40,7 @@ namespace RoseOnline.Streaming.VFS.Decorator
         {
             int fileCount = VGetFileCount(vfsName);
             IntPtr[] reserveMemory = ReserveMemory(fileCount);
-            NativeMethods.VGetFileNames(_VFS.VFSData, vfsName, reserveMemory, fileCount, 5);
+            NativeMethods.VGetFileNames(_VFS.VFSData, vfsName, reserveMemory, fileCount, Constants.MAX_VFS_FILES);
             return ConvertIntPtrToString(fileCount, reserveMemory);
         }
         

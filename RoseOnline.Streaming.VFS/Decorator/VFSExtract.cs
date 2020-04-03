@@ -7,7 +7,6 @@ namespace RoseOnline.Streaming.VFS.Decorator
     {
         void VOpenFile(string fileName);
         uint VFGetsize();
-
         bool VFRead(uint size);
     }
     class VFSExtract : VFSBase, IVFSExtract
