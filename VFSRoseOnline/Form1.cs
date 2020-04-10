@@ -1,6 +1,7 @@
 ﻿using RoseOnline.Streaming.VFS.Decorator;
 using RoseOnline.Streaming.VFS.Facade;
 using RoseOnline.Streaming.VFS.Factory;
+using RoseOnline.Streaming.VFS.Template;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,8 +30,19 @@ namespace VFSRoseOnline
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            treeViewVFS.Nodes.AddRange(_vfsReadFacade.VFSFileNames);
-            var b = _vfsReadFacade.VFSModel;
+            treeViewVFS.Nodes.AddRange(_vfsReadFacade.VFSModel);
+
+            List<MergeVFSTree> listMerges = new List<MergeVFSTree>();
+            foreach(var model in _vfsReadFacade.VFSModel)
+            {
+                MergeVFSTree merge = new MergeVFSTree(new RoseOnline.Streaming.VFS.Collection.VFSTree<string>(model.VFSRoot));
+                foreach (var path in model.VFSNodes)
+                {
+                    merge.Merge(path);
+                }
+                listMerges.Add(merge);
+            }
         }
+
     }
 }

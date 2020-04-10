@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29409.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VFSRoseOnline", "VFSRoseOnline\VFSRoseOnline.csproj", "{3C14EBC2-3CDF-49F4-B6BA-01709818C989}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoseOnline.Streaming.VFS", "RoseOnline.Streaming.VFS\RoseOnline.Streaming.VFS.csproj", "{93D1F5BB-D887-48CF-A1C6-3C50221EB86F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoseOnline.Streaming.VFS", "RoseOnline.Streaming.VFS\RoseOnline.Streaming.VFS.csproj", "{93D1F5BB-D887-48CF-A1C6-3C50221EB86F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VFSUnitTest", "VFSUnitTest\VFSUnitTest.csproj", "{0932063B-5980-4585-9BB2-D8DDE6E68408}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{93D1F5BB-D887-48CF-A1C6-3C50221EB86F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93D1F5BB-D887-48CF-A1C6-3C50221EB86F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93D1F5BB-D887-48CF-A1C6-3C50221EB86F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0932063B-5980-4585-9BB2-D8DDE6E68408}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0932063B-5980-4585-9BB2-D8DDE6E68408}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0932063B-5980-4585-9BB2-D8DDE6E68408}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0932063B-5980-4585-9BB2-D8DDE6E68408}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
