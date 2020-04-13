@@ -18,10 +18,19 @@ namespace VFSRoseOnline
 {
     public partial class Form1 : Form
     {
+        private readonly MenuItem exportMenuItem = new MenuItem("Export");
+        private readonly ContextMenu contextMenu = new ContextMenu();
         public Form1()
         { 
             InitializeComponent();
             Init();
+            contextMenu.MenuItems.Add(exportMenuItem);
+            exportMenuItem.Click += new EventHandler(exportMenuItem_Click);
+        }
+
+        void exportMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
 
         private async void Form1_Load(object sender, EventArgs e)
@@ -30,6 +39,15 @@ namespace VFSRoseOnline
             treeViewVFS.Nodes.AddRange(await LoadVFSFilesInTreeview());
         }
 
-        
+        private void treeViewVFS_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            TreeView treeView = sender as TreeView;
+            if (treeView == null) return;
+
+            if (e.Button == System.Windows.Forms.MouseButtons.Right && treeView.SelectedNode != null && treeView.SelectedNode.Text.Contains('.'))
+            {
+                contextMenu.Show(treeViewVFS, e.Location);
+            }
+        }
     }
 }

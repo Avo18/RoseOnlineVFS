@@ -28,7 +28,9 @@ namespace RoseOnline.Streaming.VFS.Decorator
             int numberOfFiles = VGetVfsCount();
             IntPtr[] reserveMemory = ReserveMemory(numberOfFiles);
             NativeMethods.VGetVfsNames(_VFS.VFSData, reserveMemory, numberOfFiles, Constants.MAX_PATH_LENGTH);
-            return ConvertIntPtrToString(numberOfFiles, reserveMemory);
+            var vfsNames = ConvertIntPtrToString(numberOfFiles, reserveMemory);
+            FreeHGlobal(reserveMemory);
+            return vfsNames;
         }
 
         public int VGetFileCount(string vfsName)
@@ -41,7 +43,9 @@ namespace RoseOnline.Streaming.VFS.Decorator
             int fileCount = VGetFileCount(vfsName);
             IntPtr[] reserveMemory = ReserveMemory(fileCount);
             NativeMethods.VGetFileNames(_VFS.VFSData, vfsName, reserveMemory, fileCount, Constants.MAX_VFS_FILES);
-            return ConvertIntPtrToString(fileCount, reserveMemory);
+            var fileNames = ConvertIntPtrToString(fileCount, reserveMemory);
+            FreeHGlobal(reserveMemory);
+            return fileNames;
         }
         
     }

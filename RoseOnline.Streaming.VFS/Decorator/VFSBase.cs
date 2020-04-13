@@ -21,6 +21,14 @@ namespace RoseOnline.Streaming.VFS.Decorator
             return new ArraySegment<string>(rootFiles);
         }
 
+        protected void FreeHGlobal(IntPtr[] memory)
+        {
+            foreach(var value in memory)
+            {
+                Marshal.FreeHGlobal(value);
+            }
+        }
+
         public virtual void Dispose()
         {
             //((IDisposable)this)?.Dispose();
