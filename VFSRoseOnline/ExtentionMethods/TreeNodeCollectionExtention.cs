@@ -11,40 +11,29 @@ namespace VFSRoseOnline.ExtentionMethods
 {
     public static class TreeNodeCollectionExtention
     {
-        public static TreeNode[] AddRange(this TreeNodeCollection treeNodeCollection, ArraySegment<string> values)
+        public static TreeNode AddRootNode(this TreeNodeCollection treeNodeCollection, string value)
         {
-            var treeNodes = new List<TreeNode>();
-            foreach(var value in values)
-            {
-                treeNodes.Add(new TreeNode(value));
-            }
-            treeNodeCollection.AddRange(treeNodes.ToArray());
-            return treeNodes.ToArray();
-        }
-
-        public static void AddRange(this TreeNodeCollection treeNodeCollection, ArraySegment<VFSModel> values)
-        {
-            foreach(var value in values)
-            {
-                AddRootNode(treeNodeCollection, value.VFSRoot);
-                AddChildNode(treeNodeCollection, value);
-            }
-        }
-
-        public static void AddRange(this TreeNodeCollection treeNodeCollection, VFSTree<string> vfsTree)
-        {
-
-        }
-
-        private static void AddRootNode(TreeNodeCollection treeNodeCollection, string value)
-        {
+            var rootNode = new TreeNode(value);
             treeNodeCollection.Add(new TreeNode(value));
+            return treeNodeCollection.Cast<TreeNode>().Where(x => x.Text == value).FirstOrDefault();
         }
 
-        private static void AddChildNode(TreeNodeCollection treeNodeCollection, VFSModel model)
-        {
-            //var getChildNodesOfRoot = treeNodeCollection[model.VFSRoot].Nodes;
 
+        public static void AddChildNode(this TreeNode treeNode, string path)
+        {
+            string[] folders = path.Split(new[] { "\\" }, StringSplitOptions.RemoveEmptyEntries);
+            int index = 1;
+            for (TreeNode nested = treeNode; index < folders.Length; index++)
+            {
+                var getValuePath = folders[index];
+
+                var foundNode = nested.Nodes.Cast<TreeNode>().Where(x => x.Text == getValuePath);
+                if (foundNode.Count() == 0)
+                {
+                    nested.Nodes.Add(getValuePath);
+                }
+                nested = foundNode.FirstOrDefault();
+            }
         }
     }
 }

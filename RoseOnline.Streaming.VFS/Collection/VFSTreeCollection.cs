@@ -43,9 +43,7 @@ namespace RoseOnline.Streaming.VFS.Collection
         {
             for (var i = Index; i != null; i = i.Index)
             {
-                //var found = i.Childeren.Find(x => x.Data.Equals(find));
                 var found = i.Data.Equals(find);
-                //if (found != null)
                 if (found)
                     return i;
                 if (i.IsRoot)

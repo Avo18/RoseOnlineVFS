@@ -36,7 +36,6 @@ namespace RoseOnline.Streaming.VFS.Template
                 }
                 nested = foundNode;
             }
-
         }
 
         private bool AddFile(string file, VFSTree<string> node)
