@@ -15,24 +15,17 @@ namespace RoseOnline.Streaming.VFS.Facade
         ArraySegment<string> GetAllVFSFileNames();
     }
 
-    public class VFSReadFacade : IVFSReadFacade
+    public class VFSReadFacade : VFSFacadeBase, IVFSReadFacade
     {
-        private readonly VFSFactory _vfsFactory;
-        private readonly VFSModeAdapterFacory _vfsModeAdapterFacory;
-        private readonly Decorator.VFS _vfs;
         private readonly VFSStream _vfsStream;
-
         public ArraySegment<string> VFSFileNames { get; set; }
         private List<VFSModel> vfsModel = new List<VFSModel>();
         public ArraySegment<VFSModel> VFSModel { get; set; }
 
-        public VFSReadFacade()
+        public VFSReadFacade(VFSFactory vfsFactory, VFSModeAdapterFacory vfsModeAdapterFacory, Decorator.VFS vfs) 
+            : base(vfsFactory, vfsModeAdapterFacory, vfs)
         {
-            _vfsModeAdapterFacory = new VFSModeAdapterFacory();
-            _vfsFactory = new VFSFactory(_vfsModeAdapterFacory);
-            _vfs = _vfsFactory.GetVFS();
             _vfsStream = _vfsFactory.GetVFSStream(_vfs);
-
             VFSFileNames = new ArraySegment<string>();
             VFSModel = new ArraySegment<VFSModel>();
         }

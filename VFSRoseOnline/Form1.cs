@@ -20,17 +20,29 @@ namespace VFSRoseOnline
     {
         private readonly MenuItem exportMenuItem = new MenuItem("Export");
         private readonly ContextMenu contextMenu = new ContextMenu();
+        private readonly VFSModeAdapterFacory _vfsModeAdapterFacory;
+        private readonly VFSFactory _vfsFactory;
+        private readonly VFS _vfs;
         public Form1()
         { 
             InitializeComponent();
-            Init();
+            _vfsModeAdapterFacory = new VFSModeAdapterFacory();
+            _vfsFactory = new VFSFactory(_vfsModeAdapterFacory);
+            _vfs = _vfsFactory.GetVFS();
+
+            InitializeVFSReadFacade();
+            InitializeExtractVFS();
+            LoadVFS();
+           
+
             contextMenu.MenuItems.Add(exportMenuItem);
             exportMenuItem.Click += new EventHandler(exportMenuItem_Click);
         }
 
         void exportMenuItem_Click(object sender, EventArgs e)
         {
-
+            var fileName = treeViewVFS.SelectedNode.Text;
+            ExtractFile(fileName);
         }
 
         private async void Form1_Load(object sender, EventArgs e)

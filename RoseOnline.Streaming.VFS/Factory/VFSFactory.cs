@@ -5,14 +5,14 @@ using System.Diagnostics.Contracts;
 
 namespace RoseOnline.Streaming.VFS.Factory
 {
-    interface IVFSFactory
+    public interface IVFSFactory
     {
         Decorator.VFS GetVFS();
         VFSStream GetVFSStream(Decorator.VFS vfs);
         VFSExtract GetVFSExtract(Decorator.VFS vfs);
     }
 
-    class VFSFactory : IVFSFactory
+    public class VFSFactory : IVFSFactory
     {
         private readonly IVFSModeAdapter _VFSModeAdapter;
         public VFSFactory(IVFSModeAdapterFacory vfsModeAdapterFacory)

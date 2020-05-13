@@ -2,12 +2,12 @@
 
 namespace RoseOnline.Streaming.VFS.Factory
 {
-    interface IVFSModeAdapterFacory
+    public interface IVFSModeAdapterFacory
     {
         IVFSModeAdapter GetVFSModeAdapter();
     }
 
-    class VFSModeAdapterFacory : IVFSModeAdapterFacory
+    public class VFSModeAdapterFacory : IVFSModeAdapterFacory
     {
         public IVFSModeAdapter GetVFSModeAdapter()
         {

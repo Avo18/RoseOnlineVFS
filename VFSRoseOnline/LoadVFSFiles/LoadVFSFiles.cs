@@ -11,9 +11,14 @@ namespace VFSRoseOnline
 {
     public partial class Form1
     {
-        private readonly VFSReadFacade _vfsReadFacade = new VFSReadFacade();
+        private VFSReadFacade _vfsReadFacade;
 
-        public void Init()
+        private void InitializeVFSReadFacade()
+        {
+            _vfsReadFacade = new VFSReadFacade(_vfsFactory, _vfsModeAdapterFacory, _vfs);
+        }
+
+        private void LoadVFS()
         {
             using (_vfsReadFacade)
             {

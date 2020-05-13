@@ -2,14 +2,14 @@
 
 namespace RoseOnline.Streaming.VFS.Decorator
 {
-    interface IVFS
+    public interface IVFS
     {
         string IndexFile { get; set; }
         string VFSMode { get; set; }
     }
 
-    
-    class VFS : VFSBase, IVFS
+
+    public class VFS : VFSBase, IVFS
     {
         public string IndexFile { get; set; }
         public string VFSMode { get; set; }

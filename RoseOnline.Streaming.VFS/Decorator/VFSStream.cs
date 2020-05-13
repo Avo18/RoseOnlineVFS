@@ -2,7 +2,7 @@
 
 namespace RoseOnline.Streaming.VFS.Decorator
 {
-    interface IVFSStream
+    public interface IVFSStream
     {
         int VGetVfsCount();
         ArraySegment<string> VGetVfsNames();
@@ -10,7 +10,7 @@ namespace RoseOnline.Streaming.VFS.Decorator
         ArraySegment<string> VGetFileNames(string vfsName);
     }
 
-    class VFSStream : VFSBase, IVFSStream
+    public class VFSStream : VFSBase, IVFSStream
     {
         internal readonly VFS _VFS;
         public VFSStream(VFS vfs)
