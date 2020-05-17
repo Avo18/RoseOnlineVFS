@@ -18,12 +18,12 @@ namespace VFSRoseOnline
 {
     public partial class Form1 : Form
     {
-        private readonly MenuItem exportMenuItem = new MenuItem("Export");
-        private readonly ContextMenu contextMenu = new ContextMenu();
         private readonly VFSModeAdapterFacory _vfsModeAdapterFacory;
         private readonly VFSFactory _vfsFactory;
 #pragma warning disable IDE0069  //IDE0069 false-positive
         private readonly VFS _vfs;
+        private readonly MenuItem exportMenuItem;
+        private readonly ContextMenu contextMenu;
 #pragma warning restore IDE0069 
         public Form1()
         { 
@@ -35,10 +35,15 @@ namespace VFSRoseOnline
             InitializeVFSReadFacade();
             InitializeExtractVFS();
             LoadVFS();
-           
 
-            contextMenu.MenuItems.Add(exportMenuItem);
-            exportMenuItem.Click += new EventHandler(ExportMenuItem_Click);
+            using (exportMenuItem = new MenuItem("Export"))
+            {
+                using (contextMenu = new ContextMenu())
+                {
+                    contextMenu.MenuItems.Add(exportMenuItem);
+                }
+                exportMenuItem.Click += new EventHandler(ExportMenuItem_Click);
+            }
         }
 
         void ExportMenuItem_Click(object sender, EventArgs e)
