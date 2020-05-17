@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using VFSRoseOnline.ExtentionMethods;
@@ -28,7 +29,7 @@ namespace VFSRoseOnline
                 _vfsReadFacade.GetAllNodes();
             }
         }
-        private Task<TreeNode[]> LoadVFSFilesInTreeview()
+        private Task<TreeNode[]> LoadVFSFilesInTreeview(CancellationToken token = default)
         {
             List<TreeNode> treeNodes = new List<TreeNode>();
             return Task.Run(() =>
@@ -51,7 +52,7 @@ namespace VFSRoseOnline
                 }
                 CheckProgressbarSuccessfullyLoaded();
                 return treeNodes.ToArray();
-            });
+            }, token);
         }
 
         private void CheckProgressbarSuccessfullyLoaded()

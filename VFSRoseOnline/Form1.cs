@@ -55,7 +55,8 @@ namespace VFSRoseOnline
         private async void Form1_Load(object sender, EventArgs e)
         {
             treeViewLoadingProgressBar.Maximum = _vfsReadFacade.VFSModel.Sum(x => x.VFSNodes.Count);
-            treeViewVFS.Nodes.AddRange(await LoadVFSFilesInTreeview());
+            using var cancellationTokenSource = new CancellationTokenSource();
+            treeViewVFS.Nodes.AddRange(await LoadVFSFilesInTreeview(cancellationTokenSource.Token));
         }
 
         private void TreeViewVFS_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
