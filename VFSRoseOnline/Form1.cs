@@ -46,17 +46,18 @@ namespace VFSRoseOnline
             }
         }
 
-        void ExportMenuItem_Click(object sender, EventArgs e)
+        async void ExportMenuItem_Click(object sender, EventArgs e)
         {
+            using var cancellationTokenSource = new CancellationTokenSource();
             var fileName = treeViewVFS.SelectedNode.Text;
-            ExtractFile(fileName);
+            await ExtractFileAsync(fileName, cancellationTokenSource.Token).ConfigureAwait(false);
         }
 
         private async void Form1_Load(object sender, EventArgs e)
         {
             treeViewLoadingProgressBar.Maximum = _vfsReadFacade.VFSModel.Sum(x => x.VFSNodes.Count);
             using var cancellationTokenSource = new CancellationTokenSource();
-            treeViewVFS.Nodes.AddRange(await LoadVFSFilesInTreeview(cancellationTokenSource.Token));
+            treeViewVFS.Nodes.AddRange(await LoadVFSFilesInTreeview(cancellationTokenSource.Token).ConfigureAwait(false));
         }
 
         private void TreeViewVFS_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)

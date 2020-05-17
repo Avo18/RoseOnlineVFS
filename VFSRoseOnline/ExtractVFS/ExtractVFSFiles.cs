@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace VFSRoseOnline
@@ -14,9 +15,9 @@ namespace VFSRoseOnline
         {
             _vfsExtractFacade = new VFSExtractFacade(_vfsFactory, _vfsModeAdapterFacory, _vfs);
         }
-        public bool ExtractFile(string fileName)
+        public async Task<bool> ExtractFileAsync(string fileName, CancellationToken token = default)
         {
-            return _vfsExtractFacade.ExtractFile(fileName);
+            return await _vfsExtractFacade.ExtractFileAsync(fileName, token).ConfigureAwait(false);
         }
     }
 }

@@ -3,6 +3,8 @@ using RoseOnline.Streaming.VFS.Factory;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RoseOnline.Streaming.VFS.Facade
 {
@@ -15,9 +17,9 @@ namespace RoseOnline.Streaming.VFS.Facade
             _vfsExtract = new VFSExtract(_vfs);
         }
 
-        public bool ExtractFile(string fileName)
+        public async Task<bool> ExtractFileAsync(string fileName, CancellationToken token = default)
         {
-            return _vfsExtract.ExtractFile(fileName);
+            return await _vfsExtract.ExtractFileAsync(fileName, token).ConfigureAwait(false);
         }
     }
 }

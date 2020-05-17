@@ -1,12 +1,14 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RoseOnline.Streaming.VFS.Decorator
 {
 
     public interface IVFSExtract
     {
-        bool ExtractFile(string fileName);
+        Task<bool> ExtractFileAsync(string fileName, CancellationToken token = default);
     }
     public class VFSExtract : VFSBase, IVFSExtract
     {
@@ -16,22 +18,22 @@ namespace RoseOnline.Streaming.VFS.Decorator
             _VFS = InjectionChecks.NotNull(vfs);
         }
 
-        public bool ExtractFile(string fileName)
+        public async Task<bool> ExtractFileAsync(string fileName, CancellationToken token = default)
         {
             IntPtr openFileName = VOpenFile(fileName);
             uint size = VFGetsize(openFileName);
             if (size <= 0) return false;
             var readedBytes = VFRead(size, openFileName);
-            return WriteBytesToFile(readedBytes, fileName);
+            return await WriteBytesToFileAsync(readedBytes, fileName, token).ConfigureAwait(false);
         }
         
-        private bool WriteBytesToFile(byte[] buffer, string fileName)
+        private async Task<bool> WriteBytesToFileAsync(byte[] buffer, string fileName, CancellationToken token = default)
         {
             try
             {
                 using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
                 {
-                    fs.Write(buffer, 0, buffer.Length);
+                    await fs.WriteAsync(buffer, 0, buffer.Length, token).ConfigureAwait(false);
                     return true;
                 }
             }
