@@ -22,7 +22,9 @@ namespace VFSRoseOnline
         private readonly ContextMenu contextMenu = new ContextMenu();
         private readonly VFSModeAdapterFacory _vfsModeAdapterFacory;
         private readonly VFSFactory _vfsFactory;
+#pragma warning disable IDE0069  //IDE0069 false-positive
         private readonly VFS _vfs;
+#pragma warning restore IDE0069 
         public Form1()
         { 
             InitializeComponent();
@@ -36,10 +38,10 @@ namespace VFSRoseOnline
            
 
             contextMenu.MenuItems.Add(exportMenuItem);
-            exportMenuItem.Click += new EventHandler(exportMenuItem_Click);
+            exportMenuItem.Click += new EventHandler(ExportMenuItem_Click);
         }
 
-        void exportMenuItem_Click(object sender, EventArgs e)
+        void ExportMenuItem_Click(object sender, EventArgs e)
         {
             var fileName = treeViewVFS.SelectedNode.Text;
             ExtractFile(fileName);
@@ -51,10 +53,9 @@ namespace VFSRoseOnline
             treeViewVFS.Nodes.AddRange(await LoadVFSFilesInTreeview());
         }
 
-        private void treeViewVFS_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void TreeViewVFS_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            TreeView treeView = sender as TreeView;
-            if (treeView == null) return;
+            if (!(sender is TreeView treeView)) return;
 
             if (e.Button == System.Windows.Forms.MouseButtons.Right && treeView.SelectedNode != null && treeView.SelectedNode.Text.Contains('.'))
             {

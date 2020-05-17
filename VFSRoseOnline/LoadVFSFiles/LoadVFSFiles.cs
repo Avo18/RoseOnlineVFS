@@ -11,7 +11,9 @@ namespace VFSRoseOnline
 {
     public partial class Form1
     {
+#pragma warning disable IDE0069  //IDE0069 false-positive
         private VFSReadFacade _vfsReadFacade;
+#pragma warning restore IDE0069
 
         private void InitializeVFSReadFacade()
         {

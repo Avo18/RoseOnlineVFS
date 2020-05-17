@@ -11,7 +11,6 @@ namespace RoseOnline.Streaming.VFS.Decorator
     public class VFSExtract : VFSBase, IVFSExtract
     {
         private readonly VFS _VFS;
-        internal IntPtr _VFSData;
         public VFSExtract(VFS vfs)
         {
             _VFS = InjectionChecks.NotNull(vfs);

@@ -45,7 +45,7 @@
             this.treeViewVFS.PathSeparator = "\\\\";
             this.treeViewVFS.Size = new System.Drawing.Size(362, 488);
             this.treeViewVFS.TabIndex = 0;
-            this.treeViewVFS.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewVFS_NodeMouseClick);
+            this.treeViewVFS.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeViewVFS_NodeMouseClick);
             // 
             // statusStrip1
             // 

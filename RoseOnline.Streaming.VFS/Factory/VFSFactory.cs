@@ -22,17 +22,28 @@ namespace RoseOnline.Streaming.VFS.Factory
 
         public Decorator.VFS GetVFS()
         {
-            return new Decorator.VFS(Constants.DATA_IDX, _VFSModeAdapter.GetStringVFSMode(VFSMode.Read));
+            using (var result = new Decorator.VFS(Constants.DATA_IDX, _VFSModeAdapter.GetStringVFSMode(VFSMode.Read)))
+            {
+                return result;
+            }
         }
 
         public VFSStream GetVFSStream(Decorator.VFS vfs)
         {
-            return new VFSStream(vfs);
+            InjectionChecks.NotNull(vfs);
+            using (var result = new VFSStream(vfs))
+            {
+                return result;
+            }
         }
 
         public VFSExtract GetVFSExtract(Decorator.VFS vfs)
         {
-            return new VFSExtract(vfs);
+            InjectionChecks.NotNull(vfs);
+            using (var result = new VFSExtract(vfs))
+            {
+                return result;
+            }
         }
 
     }

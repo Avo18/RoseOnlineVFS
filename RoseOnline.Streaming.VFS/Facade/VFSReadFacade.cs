@@ -19,7 +19,7 @@ namespace RoseOnline.Streaming.VFS.Facade
     {
         private readonly VFSStream _vfsStream;
         public ArraySegment<string> VFSFileNames { get; set; }
-        private List<VFSModel> vfsModel = new List<VFSModel>();
+        private readonly List<VFSModel> vfsModel = new List<VFSModel>();
         public ArraySegment<VFSModel> VFSModel { get; set; }
 
         public VFSReadFacade(VFSFactory vfsFactory, VFSModeAdapterFacory vfsModeAdapterFacory, Decorator.VFS vfs) 
