@@ -32,7 +32,7 @@ namespace RoseOnline.Streaming.VFS.Decorator
         public virtual void Dispose()
         {
             //((IDisposable)this)?.Dispose();
-            GC.SuppressFinalize(this);
+            //GC.SuppressFinalize(this);
         }
     }
 }

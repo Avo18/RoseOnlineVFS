@@ -11,6 +11,7 @@ namespace RoseOnline.Streaming.VFS.Decorator
 
     public class VFS : VFSBase, IVFS
     {
+        private bool _dispose;
         public string IndexFile { get; set; }
         public string VFSMode { get; set; }
         internal IntPtr VFSData { get; set; }
@@ -37,10 +38,12 @@ namespace RoseOnline.Streaming.VFS.Decorator
             NativeMethods.CloseVFS(VFSData);
         }
 
-        public override void Dispose()
+        public sealed override void Dispose()
         {
+            if (_dispose) return;
             CloseVFS();
             base.Dispose();
+            _dispose = true;
         }
     }
 

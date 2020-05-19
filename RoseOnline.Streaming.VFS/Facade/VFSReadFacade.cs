@@ -21,6 +21,7 @@ namespace RoseOnline.Streaming.VFS.Facade
         public ArraySegment<string> VFSFileNames { get; set; }
         private readonly List<VFSModel> vfsModel = new List<VFSModel>();
         public ArraySegment<VFSModel> VFSModel { get; set; }
+        private bool _dispose;
 
         public VFSReadFacade(VFSFactory vfsFactory, VFSModeAdapterFacory vfsModeAdapterFacory, Decorator.VFS vfs) 
             : base(vfsFactory, vfsModeAdapterFacory, vfs)
@@ -58,9 +59,11 @@ namespace RoseOnline.Streaming.VFS.Facade
 
         public void Dispose()
         {
+            if (_dispose) return;
             _vfs.Dispose();
             _vfsStream.Dispose();
             GC.SuppressFinalize(this);
+            _dispose = true;
         }
     }
 }

@@ -13,6 +13,7 @@ namespace RoseOnline.Streaming.VFS.Decorator
     public class VFSExtract : VFSBase, IVFSExtract
     {
         private readonly VFS _VFS;
+        private bool _dispose;
         public VFSExtract(VFS vfs)
         {
             _VFS = InjectionChecks.NotNull(vfs);
@@ -61,6 +62,13 @@ namespace RoseOnline.Streaming.VFS.Decorator
             if (successfullyReaded)
                 return buffer;
             return new byte[0];
+        }
+
+        public sealed override void Dispose()
+        {
+            if (_dispose) return;
+            _VFS.Dispose();
+            _dispose = true;
         }
     }
 }

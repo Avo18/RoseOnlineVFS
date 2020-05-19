@@ -13,6 +13,7 @@ namespace RoseOnline.Streaming.VFS.Decorator
     public class VFSStream : VFSBase, IVFSStream
     {
         internal readonly VFS _VFS;
+        private bool _dispose;
         public VFSStream(VFS vfs)
         {
             _VFS = InjectionChecks.NotNull(vfs);
@@ -46,6 +47,14 @@ namespace RoseOnline.Streaming.VFS.Decorator
             var fileNames = ConvertIntPtrToString(fileCount, reserveMemory);
             FreeHGlobal(reserveMemory);
             return fileNames;
+        }
+
+        public sealed override void Dispose()
+        {
+            if (_dispose) return;
+
+            _VFS.Dispose();
+            _dispose = true;
         }
         
     }
