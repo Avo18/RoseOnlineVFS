@@ -14,10 +14,10 @@ namespace RoseOnline.Streaming.VFS.Facade
         public VFSExtractFacade(VFSFactory vfsFactory, VFSModeAdapterFacory vfsModeAdapterFacory, Decorator.VFS vfs) 
             : base(vfsFactory, vfsModeAdapterFacory, vfs)
         {
-            _vfsExtract = new VFSExtract(_vfs);
+            _vfsExtract = new VFSExtract();
         }
 
         public async Task<bool> ExtractFileAsync(string fileName, CancellationToken token = default) =>
-            await _vfsExtract.ExtractFileAsync(fileName, token).ConfigureAwait(false);
+            await _vfsExtract.ExtractFileAsync(fileName,IntPtr.Zero, token).ConfigureAwait(false);
     }
 }

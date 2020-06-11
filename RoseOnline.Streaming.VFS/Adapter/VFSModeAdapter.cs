@@ -1,4 +1,5 @@
 ﻿using RoseOnline.Streaming.VFS.Decorator;
+using System.IO;
 
 namespace RoseOnline.Streaming.VFS.Adapter
 {

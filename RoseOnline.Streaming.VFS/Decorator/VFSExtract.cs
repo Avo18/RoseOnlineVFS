@@ -8,20 +8,39 @@ namespace RoseOnline.Streaming.VFS.Decorator
 
     public interface IVFSExtract
     {
-        Task<bool> ExtractFileAsync(string fileName, CancellationToken token = default);
+        Task<bool> ExtractFileAsync(string fileName, IntPtr vfsFile, CancellationToken token = default);
     }
-    public class VFSExtract : VFSBase, IVFSExtract
+    public class VFSExtract : Stream, IVFSExtract
     {
-        private readonly VFS _VFS;
-        private bool _dispose;
-        public VFSExtract(VFS vfs)
+        private readonly MemoryStream _buffer;
+        public override bool CanRead => false;
+
+        public override bool CanSeek => false;
+
+        public override bool CanWrite => true;
+
+        public override long Length => _buffer.Length;
+
+        public override long Position { get => _buffer.Position; set => throw new NotSupportedException("This stream not supporting seek"); }
+
+        public VFSExtract()
         {
-            _VFS = Validations.NotNull(vfs);
+            _buffer = new MemoryStream();
         }
 
-        public async Task<bool> ExtractFileAsync(string fileName, CancellationToken token = default)
+        public VFSExtract(MemoryStream buffer)
         {
-            IntPtr openFileName = VOpenFile(fileName);
+            _buffer = Validations.NotNull(buffer);
+        }
+
+        ~VFSExtract()
+        {
+            Dispose(false);
+        }
+
+        public async Task<bool> ExtractFileAsync(string fileName, IntPtr vfsFile, CancellationToken token = default)
+        {
+            IntPtr openFileName = VOpenFile(fileName, vfsFile);
             uint size = VFGetsize(openFileName);
             if (size <= 0) return false;
             var readedBytes = VFRead(size, openFileName);
@@ -44,9 +63,9 @@ namespace RoseOnline.Streaming.VFS.Decorator
             }
         }
 
-        private IntPtr VOpenFile(string fileName)
+        private IntPtr VOpenFile(string fileName, IntPtr vfsFile)
         {
-            return NativeMethods.VOpenFile(fileName, _VFS.VFSData);
+            return NativeMethods.VOpenFile(fileName, vfsFile);
         }
 
         private uint VFGetsize(IntPtr file)
@@ -64,11 +83,23 @@ namespace RoseOnline.Streaming.VFS.Decorator
             return new byte[0];
         }
 
-        public sealed override void Dispose()
+        public override void Flush() => _buffer.Flush();
+
+        public override Task FlushAsync(CancellationToken cancellationToken) => _buffer.FlushAsync(cancellationToken);
+
+        public override int Read(byte[] buffer, int offset, int count) => throw new NotSupportedException("This is not supported");
+
+        public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException("Seek is not supported");
+
+        public override void SetLength(long value) => throw new NotSupportedException("SetLength is not supported");
+
+        public override void Write(byte[] buffer, int offset, int count) => _buffer.Write(buffer, offset, count);
+
+
+        protected override void Dispose(bool disposing)
         {
-            if (_dispose) return;
-            _VFS.Dispose();
-            _dispose = true;
+            if (!disposing) return;
+            _buffer.Dispose();
         }
     }
 }

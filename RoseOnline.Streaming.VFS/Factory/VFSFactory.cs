@@ -9,7 +9,7 @@ namespace RoseOnline.Streaming.VFS.Factory
     {
         Decorator.VFS GetVFS();
         VFSStream GetVFSStream(Decorator.VFS vfs);
-        VFSExtract GetVFSExtract(Decorator.VFS vfs);
+        VFSExtract GetVFSExtract();
     }
 
     public class VFSFactory : IVFSFactory
@@ -37,10 +37,9 @@ namespace RoseOnline.Streaming.VFS.Factory
             }
         }
 
-        public VFSExtract GetVFSExtract(Decorator.VFS vfs)
+        public VFSExtract GetVFSExtract()
         {
-            Validations.NotNull(vfs);
-            using (var result = new VFSExtract(vfs))
+            using (var result = new VFSExtract())
             {
                 return result;
             }
