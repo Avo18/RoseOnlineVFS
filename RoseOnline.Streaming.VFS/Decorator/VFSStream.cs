@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RoseOnline.Streaming.VFS.Model;
+using System;
 
 namespace RoseOnline.Streaming.VFS.Decorator
 {
@@ -7,7 +8,7 @@ namespace RoseOnline.Streaming.VFS.Decorator
         int VGetVfsCount();
         ArraySegment<string> VGetVfsNames();
         int VGetFileCount(string vfsName);
-        ArraySegment<string> VGetFileNames(string vfsName);
+        ArraySegment<VFSNode> VGetFileNames(string vfsName);
     }
 
     public class VFSStream : VFSBase, IVFSStream
@@ -16,7 +17,7 @@ namespace RoseOnline.Streaming.VFS.Decorator
         private bool _dispose;
         public VFSStream(VFS vfs)
         {
-            _VFS = InjectionChecks.NotNull(vfs);
+            _VFS = Validations.NotNull(vfs);
         }
 
         public int VGetVfsCount()
@@ -39,12 +40,13 @@ namespace RoseOnline.Streaming.VFS.Decorator
             return NativeMethods.VGetFileCount(_VFS.VFSData, vfsName);
         }
 
-        public ArraySegment<string> VGetFileNames(string vfsName)
+        public ArraySegment<VFSNode> VGetFileNames(string vfsName)
         {
             int fileCount = VGetFileCount(vfsName);
             IntPtr[] reserveMemory = ReserveMemory(fileCount);
             NativeMethods.VGetFileNames(_VFS.VFSData, vfsName, reserveMemory, fileCount, Constants.MAX_VFS_FILES);
-            var fileNames = ConvertIntPtrToString(fileCount, reserveMemory);
+            //var fileNames = ConvertIntPtrToString(fileCount, reserveMemory);
+            var fileNames = ConvertIntPtrToList(fileCount, reserveMemory);
             FreeHGlobal(reserveMemory);
             return fileNames;
         }

@@ -17,7 +17,7 @@ namespace RoseOnline.Streaming.VFS.Factory
         private readonly IVFSModeAdapter _VFSModeAdapter;
         public VFSFactory(IVFSModeAdapterFacory vfsModeAdapterFacory)
         {
-            _VFSModeAdapter = InjectionChecks.NotNull(vfsModeAdapterFacory.GetVFSModeAdapter());
+            _VFSModeAdapter = Validations.NotNull(vfsModeAdapterFacory.GetVFSModeAdapter());
         }
 
         public Decorator.VFS GetVFS()
@@ -30,7 +30,7 @@ namespace RoseOnline.Streaming.VFS.Factory
 
         public VFSStream GetVFSStream(Decorator.VFS vfs)
         {
-            InjectionChecks.NotNull(vfs);
+            Validations.NotNull(vfs);
             using (var result = new VFSStream(vfs))
             {
                 return result;
@@ -39,7 +39,7 @@ namespace RoseOnline.Streaming.VFS.Factory
 
         public VFSExtract GetVFSExtract(Decorator.VFS vfs)
         {
-            InjectionChecks.NotNull(vfs);
+            Validations.NotNull(vfs);
             using (var result = new VFSExtract(vfs))
             {
                 return result;

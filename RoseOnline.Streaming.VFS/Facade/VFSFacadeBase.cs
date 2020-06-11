@@ -13,9 +13,9 @@ namespace RoseOnline.Streaming.VFS.Facade
         private protected Decorator.VFS _vfs;
         public VFSFacadeBase(VFSFactory vfsFactory, VFSModeAdapterFacory vfsModeAdapterFacory, Decorator.VFS vfs)
         {
-            _vfsFactory = InjectionChecks.NotNull(vfsFactory);
-            _vfsModeAdapterFacory = InjectionChecks.NotNull(vfsModeAdapterFacory);
-            _vfs = InjectionChecks.NotNull(vfs);
+            _vfsFactory = Validations.NotNull(vfsFactory);
+            _vfsModeAdapterFacory = Validations.NotNull(vfsModeAdapterFacory);
+            _vfs = Validations.NotNull(vfs);
 
             //_vfsModeAdapterFacory = new VFSModeAdapterFacory();
             //_vfsFactory = new VFSFactory(_vfsModeAdapterFacory);

@@ -13,10 +13,8 @@ namespace RoseOnline.Streaming.VFS.Template
             VFSTree = root;
         }
 
-        public void Merge(string data)
-        {
+        public void Merge(string data) =>
             MergePathToVFSTree(data);
-        }
 
         private void MergePathToVFSTree(string data)
         {

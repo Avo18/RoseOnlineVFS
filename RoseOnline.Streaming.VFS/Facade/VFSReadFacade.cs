@@ -11,7 +11,7 @@ namespace RoseOnline.Streaming.VFS.Facade
 {
     public interface IVFSReadFacade : IDisposable
     {
-        List<ArraySegment<String>> GetAllNodes();
+        List<ArraySegment<VFSNode>> GetAllNodes();
         ArraySegment<string> GetAllVFSFileNames();
     }
 
@@ -44,7 +44,7 @@ namespace RoseOnline.Streaming.VFS.Facade
             return VFSFileNames;
         }
 
-        public List<ArraySegment<String>> GetAllNodes()
+        public List<ArraySegment<VFSNode>> GetAllNodes()
         {
             foreach (var vfsName in VFSFileNames)
             {
@@ -62,7 +62,6 @@ namespace RoseOnline.Streaming.VFS.Facade
             if (_dispose) return;
             _vfs.Dispose();
             _vfsStream.Dispose();
-            GC.SuppressFinalize(this);
             _dispose = true;
         }
     }

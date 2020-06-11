@@ -18,7 +18,7 @@ namespace RoseOnline.Streaming.VFS.Decorator
 
         public VFS(string indexFile, string vfsMode)
         {
-            IndexFile = InjectionChecks.NotNullOrEmpty(indexFile);
+            IndexFile = Validations.NotNullOrEmpty(indexFile);
             VFSMode = vfsMode;
             Init();
         }
@@ -41,7 +41,7 @@ namespace RoseOnline.Streaming.VFS.Decorator
         public sealed override void Dispose()
         {
             if (_dispose) return;
-            CloseVFS();
+            //CloseVFS();
             base.Dispose();
             _dispose = true;
         }

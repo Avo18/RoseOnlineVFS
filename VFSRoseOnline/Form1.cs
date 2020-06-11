@@ -18,12 +18,13 @@ namespace VFSRoseOnline
 {
     public partial class Form1 : Form
     {
+        private delegate void EventHandle();
         private readonly VFSModeAdapterFacory _vfsModeAdapterFacory;
         private readonly VFSFactory _vfsFactory;
 #pragma warning disable IDE0069  //IDE0069 false-positive
         private readonly VFS _vfs;
-        private readonly MenuItem exportMenuItem;
-        private readonly ContextMenu contextMenu;
+        private readonly MenuItem exportMenuItem = new MenuItem("Export");
+        private readonly ContextMenu contextMenu = new ContextMenu();
 #pragma warning restore IDE0069 
         public Form1()
         { 
@@ -36,28 +37,28 @@ namespace VFSRoseOnline
             InitializeExtractVFS();
             LoadVFS();
 
-            using (exportMenuItem = new MenuItem("Export"))
-            {
-                using (contextMenu = new ContextMenu())
-                {
-                    contextMenu.MenuItems.Add(exportMenuItem);
-                }
-                exportMenuItem.Click += new EventHandler(ExportMenuItem_Click);
-            }
+            contextMenu.MenuItems.Add(exportMenuItem);
+            exportMenuItem.Click += new EventHandler(ExportMenuItem_Click);
         }
 
         async void ExportMenuItem_Click(object sender, EventArgs e)
         {
+            await Task.Yield(); // run parallel
             using var cancellationTokenSource = new CancellationTokenSource();
             var fileName = treeViewVFS.SelectedNode.Text;
+            var fullPath = treeViewVFS.SelectedNode.FullPath;
+            //var vfsNode = this.VFSNodes.FirstOrDefault(x => x.FirstOrDefault() != null);
+            //var vfsNode = this.VFSNodes.FirstOrDefault(x => x.Where(m => m.VFSPath.Equals(fileName)).Count() > 0);
+
             await ExtractFileAsync(fileName, cancellationTokenSource.Token).ConfigureAwait(false);
         }
 
         private async void Form1_Load(object sender, EventArgs e)
         {
+            await Task.Yield(); // Run parallel
             treeViewLoadingProgressBar.Maximum = _vfsReadFacade.VFSModel.Sum(x => x.VFSNodes.Count);
             using var cancellationTokenSource = new CancellationTokenSource();
-            treeViewVFS.Nodes.AddRange(await LoadVFSFilesInTreeview(cancellationTokenSource.Token).ConfigureAwait(false));
+            treeViewVFS.Nodes.AddRange(await LoadVFSFilesInTreeview(cancellationTokenSource.Token));
         }
 
         private void TreeViewVFS_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)

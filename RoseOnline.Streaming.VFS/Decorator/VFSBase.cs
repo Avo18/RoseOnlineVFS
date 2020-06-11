@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RoseOnline.Streaming.VFS.Model;
+using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace RoseOnline.Streaming.VFS.Decorator
@@ -19,6 +21,14 @@ namespace RoseOnline.Streaming.VFS.Decorator
             for (int i = 0; i < numberOfFiles; i++)
                 rootFiles[i] = Marshal.PtrToStringAnsi(reserveMemory[i]);
             return new ArraySegment<string>(rootFiles);
+        }
+
+        protected ArraySegment<VFSNode> ConvertIntPtrToList(int numberOfFiles, IntPtr[] reserveMemory)
+        {
+            var list = new List<VFSNode>(numberOfFiles);
+            for (int i = 0; i < numberOfFiles; i++)
+                list.Add(new VFSNode() { VFSPath = Marshal.PtrToStringAnsi(reserveMemory[i]), AddressPtr = reserveMemory[i] });
+            return new ArraySegment<VFSNode>(list.ToArray());
         }
 
         protected void FreeHGlobal(IntPtr[] memory)

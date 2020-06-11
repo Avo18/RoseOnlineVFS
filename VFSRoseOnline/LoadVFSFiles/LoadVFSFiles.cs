@@ -1,4 +1,5 @@
 ﻿using RoseOnline.Streaming.VFS.Facade;
+using RoseOnline.Streaming.VFS.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace VFSRoseOnline
 #pragma warning disable IDE0069  //IDE0069 false-positive
         private VFSReadFacade _vfsReadFacade;
 #pragma warning restore IDE0069
+        private List<ArraySegment<VFSNode>> VFSNodes { get; set; }
 
         private void InitializeVFSReadFacade()
         {
@@ -26,7 +28,7 @@ namespace VFSRoseOnline
             using (_vfsReadFacade)
             {
                 _vfsReadFacade.GetAllVFSFileNames();
-                _vfsReadFacade.GetAllNodes();
+                VFSNodes = _vfsReadFacade.GetAllNodes();
             }
         }
         private Task<TreeNode[]> LoadVFSFilesInTreeview(CancellationToken token = default)
@@ -42,9 +44,9 @@ namespace VFSRoseOnline
                     var rootNode = new TreeNode(model.VFSRoot);
                     foreach (var path in model.VFSNodes)
                     {
-                        rootNode.AddChildNode(path);
+                        rootNode.AddChildNode(path.VFSPath);
                         //merge.Merge(path);
-                        treeViewLoadingProgressBar.Value += 1;
+                        Invoke(new EventHandle(() => treeViewLoadingProgressBar.Value += 1)); 
                     }
 
                     treeNodes.Add(rootNode);             
@@ -59,8 +61,8 @@ namespace VFSRoseOnline
         {
             if (treeViewLoadingProgressBar.Value == treeViewLoadingProgressBar.Maximum)
             {
-                treeViewLoadedStatusLabel.Text = "VFS files successfully loaded";
-                treeViewLoadingProgressBar.Visible = false;
+                Invoke(new EventHandle(() => treeViewLoadedStatusLabel.Text = "VFS files successfully loaded"));
+                Invoke(new EventHandle(() => treeViewLoadingProgressBar.Visible = false));
             }
         }
     }

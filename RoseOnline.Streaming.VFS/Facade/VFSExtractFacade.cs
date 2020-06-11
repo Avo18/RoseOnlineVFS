@@ -17,9 +17,7 @@ namespace RoseOnline.Streaming.VFS.Facade
             _vfsExtract = new VFSExtract(_vfs);
         }
 
-        public async Task<bool> ExtractFileAsync(string fileName, CancellationToken token = default)
-        {
-            return await _vfsExtract.ExtractFileAsync(fileName, token).ConfigureAwait(false);
-        }
+        public async Task<bool> ExtractFileAsync(string fileName, CancellationToken token = default) =>
+            await _vfsExtract.ExtractFileAsync(fileName, token).ConfigureAwait(false);
     }
 }

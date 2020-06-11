@@ -16,7 +16,7 @@ namespace RoseOnline.Streaming.VFS.Decorator
         private bool _dispose;
         public VFSExtract(VFS vfs)
         {
-            _VFS = InjectionChecks.NotNull(vfs);
+            _VFS = Validations.NotNull(vfs);
         }
 
         public async Task<bool> ExtractFileAsync(string fileName, CancellationToken token = default)

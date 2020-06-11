@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RoseOnline.Streaming.VFS.Template
 {
-    interface IMerge<in T>
+    public interface IMerge<in T>
     {
         void Merge(T data);
     }

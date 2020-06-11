@@ -4,9 +4,8 @@ using System.Text;
 
 namespace RoseOnline.Streaming.VFS
 {
-    public static class InjectionChecks
+    public static class Validations
     {
-
         public static T NotNull<T>(T value) where T : class
         {
             if (value == null)
