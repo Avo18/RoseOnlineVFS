@@ -13,12 +13,12 @@ namespace RoseOnline.Streaming.VFS.Template
             VFSTree = root;
         }
 
-        public void Merge(string data) =>
-            MergePathToVFSTree(data);
+        public void Merge(string fullPath) =>
+            MergePathToVFSTree(fullPath);
 
-        private void MergePathToVFSTree(string data)
+        private void MergePathToVFSTree(string fullPath)
         {
-            var folders = data.Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries);
+            var folders = fullPath.Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries);
             if (folders.Length == 0) return;
 
             int index = 1;

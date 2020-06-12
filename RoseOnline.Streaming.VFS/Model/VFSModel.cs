@@ -10,12 +10,6 @@ namespace RoseOnline.Streaming.VFS.Model
         public ArraySegment<VFSNode> VFSNodes { get; set; }
     }
 
-    public class VFSModel1
-    {
-        public string VFSRoot { get; set; }
-        public ArraySegment<VFSNode> VFSNodes { get; set; }
-    }
-
     public class VFSNode
     {
         public string VFSPath { get; set; }

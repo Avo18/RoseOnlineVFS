@@ -5,12 +5,7 @@ using System.Threading.Tasks;
 
 namespace RoseOnline.Streaming.VFS.Decorator
 {
-
-    public interface IVFSExtract
-    {
-        Task<bool> ExtractFileAsync(string fileName, IntPtr vfsFile, CancellationToken token = default);
-    }
-    public class VFSExtract : Stream, IVFSExtract
+    public class VFSExtract : Stream
     {
         private readonly MemoryStream _buffer;
         public override bool CanRead => false;
@@ -21,7 +16,7 @@ namespace RoseOnline.Streaming.VFS.Decorator
 
         public override long Length => _buffer.Length;
 
-        public override long Position { get => _buffer.Position; set => throw new NotSupportedException("This stream not supporting seek"); }
+        public override long Position { get => _buffer.Position; set => throw NotSupported(); }
 
         public VFSExtract()
         {
@@ -44,23 +39,8 @@ namespace RoseOnline.Streaming.VFS.Decorator
             uint size = VFGetsize(openFileName);
             if (size <= 0) return false;
             var readedBytes = VFRead(size, openFileName);
-            return await WriteBytesToFileAsync(readedBytes, fileName, token).ConfigureAwait(false);
-        }
-        
-        private async Task<bool> WriteBytesToFileAsync(byte[] buffer, string fileName, CancellationToken token = default)
-        {
-            try
-            {
-                using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
-                {
-                    await fs.WriteAsync(buffer, 0, buffer.Length, token).ConfigureAwait(false);
-                    return true;
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            await WriteAsync(readedBytes, 0, size, token).ConfigureAwait(false);
+            return true;
         }
 
         private IntPtr VOpenFile(string fileName, IntPtr vfsFile)
@@ -85,21 +65,34 @@ namespace RoseOnline.Streaming.VFS.Decorator
 
         public override void Flush() => _buffer.Flush();
 
-        public override Task FlushAsync(CancellationToken cancellationToken) => _buffer.FlushAsync(cancellationToken);
+        public override Task FlushAsync(CancellationToken cancellationToken) 
+            => _buffer.FlushAsync(cancellationToken);
 
-        public override int Read(byte[] buffer, int offset, int count) => throw new NotSupportedException("This is not supported");
+        public override int Read(byte[] buffer, int offset, int count)
+            => throw NotSupported();
 
-        public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException("Seek is not supported");
+        public override long Seek(long offset, SeekOrigin origin)
+            => throw NotSupported();
 
-        public override void SetLength(long value) => throw new NotSupportedException("SetLength is not supported");
+        public override void SetLength(long value)
+            => throw NotSupported();
 
-        public override void Write(byte[] buffer, int offset, int count) => _buffer.Write(buffer, offset, count);
+        public override void Write(byte[] buffer, int offset, int count) 
+            => _buffer.Write(buffer, offset, count);
 
+        public Task WriteAsync(byte[] buffer, int offset, uint count, CancellationToken cancellationToken)
+            => WriteAsync(buffer, offset, checked((int)count), cancellationToken);
+
+        public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken) 
+            => _buffer.WriteAsync(buffer, offset, count, cancellationToken);
+        
 
         protected override void Dispose(bool disposing)
         {
             if (!disposing) return;
             _buffer.Dispose();
         }
+
+        private Exception NotSupported() => throw new NotSupportedException("This is not supported.");
     }
 }

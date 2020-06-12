@@ -54,7 +54,6 @@ namespace RoseOnline.Streaming.VFS.Decorator
         public sealed override void Dispose()
         {
             if (_dispose) return;
-
             _VFS.Dispose();
             _dispose = true;
         }
