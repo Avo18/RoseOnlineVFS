@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoseOnline.Streaming.VFS", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VFSUnitTest", "VFSUnitTest\VFSUnitTest.csproj", "{0932063B-5980-4585-9BB2-D8DDE6E68408}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTypes", "DataTypes\DataTypes.csproj", "{6CD41A75-0BF3-4752-9401-DA8FC6955CF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{0932063B-5980-4585-9BB2-D8DDE6E68408}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0932063B-5980-4585-9BB2-D8DDE6E68408}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0932063B-5980-4585-9BB2-D8DDE6E68408}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CD41A75-0BF3-4752-9401-DA8FC6955CF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CD41A75-0BF3-4752-9401-DA8FC6955CF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CD41A75-0BF3-4752-9401-DA8FC6955CF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CD41A75-0BF3-4752-9401-DA8FC6955CF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

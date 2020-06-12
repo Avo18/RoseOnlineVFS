@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace RoseOnline.Streaming.VFS.DataTypes
+namespace DataTypes
 {
     public class AtomicInteger : AtomicBase<int>
     {
-        public AtomicInteger(int value)
+        public AtomicInteger(int value = default)
             :base(Convert.ToInt64(value))
         {
         }

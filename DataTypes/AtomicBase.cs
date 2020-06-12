@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Threading;
 
-namespace RoseOnline.Streaming.VFS.DataTypes
+namespace DataTypes
 {
     public abstract class AtomicBase<T> where T : struct
     {
         protected AtomicBase(Int64 value)
         {
-            _convertedValue = value;
+            ConvertedValue = value;
         }
-        protected T Value
+        public T Value
         {
             get => ConvertFrom(ConvertedValue);
-            set => _convertedValue = ConvertTo(value);
+            set => ConvertedValue = ConvertTo(value);
         }
         private Int64 _convertedValue;
 
@@ -25,5 +25,10 @@ namespace RoseOnline.Streaming.VFS.DataTypes
         protected abstract T ConvertFrom(Int64 backingValue);
 
         protected abstract Int64 ConvertTo(T backingValue);
+
+        public static bool operator !=(AtomicBase<T> a, AtomicBase<T> b) => a.Equals(b) == false;
+
+        public static bool operator ==(AtomicBase<T> a, AtomicBase<T> b) => a.Equals(b) == true;
+
     }
 }
