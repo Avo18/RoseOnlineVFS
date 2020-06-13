@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace DataTypes
 {
-    public abstract class AtomicBase<T> where T : struct
+    public abstract class AtomicBase<T> where T : struct, IEquatable<T>
     {
         protected AtomicBase(Int64 value)
         {
@@ -29,6 +29,21 @@ namespace DataTypes
         public static bool operator !=(AtomicBase<T> a, AtomicBase<T> b) => a.Equals(b) == false;
 
         public static bool operator ==(AtomicBase<T> a, AtomicBase<T> b) => a.Equals(b) == true;
+
+        public sealed override bool Equals(object obj)
+        {
+            if(obj is AtomicBase<T>)
+            {
+                var atomic = obj as AtomicBase<T>;
+                if (Object.ReferenceEquals(atomic.Value, Value)) return true;
+            }
+            return false;
+        }
+
+        public sealed override int GetHashCode()
+        {
+            return Value.GetHashCode() ^ 365;
+        }
 
     }
 }
