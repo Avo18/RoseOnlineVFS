@@ -19,9 +19,9 @@ namespace VFSRoseOnline.ExtentionMethods
         }
 
 
-        public static void AddChildNode(this TreeNode treeNode, string path)
+        public static void AddChildNode(this TreeNode treeNode, VFSNode node)
         {
-            string[] folders = path.Split(new[] { "\\" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] folders = node.VFSPath.Split(new[] { "\\" }, StringSplitOptions.RemoveEmptyEntries);
             int index = 1;
             for (TreeNode nested = treeNode; index < folders.Length; index++)
             {
@@ -30,7 +30,7 @@ namespace VFSRoseOnline.ExtentionMethods
                 var foundNode = nested.Nodes.Cast<TreeNode>().Where(x => x.Text == getValuePath);
                 if (foundNode.Count() == 0)
                 {
-                    nested.Nodes.Add(getValuePath);
+                    nested.Nodes.Add(getValuePath).Tag = node;
                 }
                 nested = foundNode.FirstOrDefault();
             }

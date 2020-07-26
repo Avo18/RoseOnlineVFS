@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RoseOnline.Streaming.VFS.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,12 @@ namespace VFSUnitTest.WinForm.ExtensionMethod
         public void AddChildNodesToTree()
         {
             TreeNode treeNode = new TreeNode("Root");
-            treeNode.AddChildNode("3DDATA\\ELDEON\\TEST1.DDS");
-            treeNode.AddChildNode("3DDATA\\ELDEON\\TEST2.DDS");
+            VFSNode node1 = new VFSNode();
+            node1.VFSPath = "3DDATA\\ELDEON\\TEST1.DDS";
+            VFSNode node2 = new VFSNode();
+            node2.VFSPath = "3DDATA\\ELDEON\\TEST2.DDS";
+            treeNode.AddChildNode(node1);
+            treeNode.AddChildNode(node2);
 
             Assert.IsTrue(treeNode.FirstNode.Nodes.Count == 2);
 

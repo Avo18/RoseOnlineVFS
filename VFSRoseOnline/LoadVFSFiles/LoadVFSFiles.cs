@@ -44,7 +44,7 @@ namespace VFSRoseOnline
                     var rootNode = new TreeNode(model.VFSRoot);
                     foreach (var path in model.VFSNodes)
                     {
-                        rootNode.AddChildNode(path.VFSPath);
+                        rootNode.AddChildNode(path);
                         //merge.Merge(path);
                         Invoke(new EventHandle(() => treeViewLoadingProgressBar.Value += 1)); 
                     }

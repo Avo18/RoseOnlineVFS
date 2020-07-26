@@ -1,6 +1,7 @@
 ﻿using RoseOnline.Streaming.VFS.Decorator;
 using RoseOnline.Streaming.VFS.Facade;
 using RoseOnline.Streaming.VFS.Factory;
+using RoseOnline.Streaming.VFS.Model;
 using RoseOnline.Streaming.VFS.Template;
 using System;
 using System.Collections.Generic;
@@ -43,19 +44,18 @@ namespace VFSRoseOnline
 
         async void ExportMenuItem_Click(object sender, EventArgs e)
         {
-            await Task.Yield(); // run parallel
             using var cancellationTokenSource = new CancellationTokenSource();
             var fileName = treeViewVFS.SelectedNode.Text;
             var fullPath = treeViewVFS.SelectedNode.FullPath;
+            var vfsNode = treeViewVFS.SelectedNode.Tag as VFSNode;
             //var vfsNode = this.VFSNodes.FirstOrDefault(x => x.FirstOrDefault() != null);
             //var vfsNode = this.VFSNodes.FirstOrDefault(x => x.Where(m => m.VFSPath.Equals(fileName)).Count() > 0);
 
-            await ExtractFileAsync(fileName, cancellationTokenSource.Token).ConfigureAwait(false);
+            await ExtractFileAsync(vfsNode.VFSPath, vfsNode.AddressPtr, cancellationTokenSource.Token).ConfigureAwait(false);
         }
 
         private async void Form1_Load(object sender, EventArgs e)
         {
-            await Task.Yield(); // Run parallel
             treeViewLoadingProgressBar.Maximum = _vfsReadFacade.VFSModel.Sum(x => x.VFSNodes.Count);
             using var cancellationTokenSource = new CancellationTokenSource();
             treeViewVFS.Nodes.AddRange(await LoadVFSFilesInTreeview(cancellationTokenSource.Token));

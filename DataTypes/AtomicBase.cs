@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using System.Threading;
 
 namespace DataTypes
@@ -30,12 +31,24 @@ namespace DataTypes
 
         public static bool operator ==(AtomicBase<T> a, AtomicBase<T> b) => a.Equals(b) == true;
 
+        public static AtomicBase<T> operator ++(AtomicBase<T> a)
+        {
+            Interlocked.Increment(ref a._convertedValue);
+            return a;
+        }
+
+        public static AtomicBase<T> operator --(AtomicBase<T> a)
+        {
+            Interlocked.Decrement(ref a._convertedValue);
+            return a;
+        }
+
         public sealed override bool Equals(object obj)
         {
             if(obj is AtomicBase<T>)
             {
                 var atomic = obj as AtomicBase<T>;
-                if (Object.ReferenceEquals(atomic.Value, Value)) return true;
+                if (atomic._convertedValue == _convertedValue) return true;
             }
             return false;
         }

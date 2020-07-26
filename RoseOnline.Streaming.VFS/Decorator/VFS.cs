@@ -33,7 +33,7 @@ namespace RoseOnline.Streaming.VFS.Decorator
             VFSData = NativeMethods.OpenVFS(this.IndexFile, VFSMode);
         }
 
-        private void CloseVFS()
+        public void CloseVFS()
         {
             NativeMethods.CloseVFS(VFSData);
         }
@@ -41,7 +41,6 @@ namespace RoseOnline.Streaming.VFS.Decorator
         public sealed override void Dispose()
         {
             if (_dispose) return;
-            CloseVFS();
             _dispose = true;
         }
     }
