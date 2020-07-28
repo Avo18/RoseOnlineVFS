@@ -1,5 +1,6 @@
 ﻿using RoseOnline.Streaming.VFS.Model;
 using System;
+using System.Threading.Tasks;
 
 namespace RoseOnline.Streaming.VFS.Decorator
 {
@@ -9,6 +10,10 @@ namespace RoseOnline.Streaming.VFS.Decorator
         ArraySegment<string> VGetVfsNames();
         int VGetFileCount(string vfsName);
         ArraySegment<VFSNode> VGetFileNames(string vfsName);
+        Task<int> VGetVFSCountAsync();
+        Task<ArraySegment<string>> VGetVfsNamesAsync();
+        Task<int> VGetFileCountAsync(string vfsName);
+        Task<ArraySegment<VFSNode>> VGetFileNamesAsync(string vfsName);
     }
 
     public class VFSStream : VFSBase, IVFSStream
@@ -24,6 +29,11 @@ namespace RoseOnline.Streaming.VFS.Decorator
         {
             return NativeMethods.VGetVfsCount(_VFS.VFSData) - 1;
         }
+        public async Task<int> VGetVFSCountAsync()
+        {
+            await Task.Yield();
+            return VGetVfsCount();
+        }
 
         public ArraySegment<string> VGetVfsNames()
         {
@@ -34,10 +44,20 @@ namespace RoseOnline.Streaming.VFS.Decorator
             FreeHGlobal(reserveMemory);
             return vfsNames;
         }
+        public async Task<ArraySegment<string>> VGetVfsNamesAsync()
+        {
+            await Task.Yield();
+            return VGetVfsNames();
+        }
 
         public int VGetFileCount(string vfsName)
         {
             return NativeMethods.VGetFileCount(_VFS.VFSData, vfsName);
+        }
+        public async Task<int> VGetFileCountAsync(string vfsName)
+        {
+            await Task.Yield();
+            return VGetFileCount(vfsName);
         }
 
         public ArraySegment<VFSNode> VGetFileNames(string vfsName)
@@ -50,6 +70,11 @@ namespace RoseOnline.Streaming.VFS.Decorator
             FreeHGlobal(reserveMemory);
             return fileNames;
         }
+        public async Task<ArraySegment<VFSNode>> VGetFileNamesAsync(string vfsName)
+        {
+            await Task.Yield();
+            return VGetFileNames(vfsName);
+        }
 
         public sealed override void Dispose()
         {
@@ -57,6 +82,5 @@ namespace RoseOnline.Streaming.VFS.Decorator
             _VFS.Dispose();
             _dispose = true;
         }
-        
     }
 }
